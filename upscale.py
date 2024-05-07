@@ -75,4 +75,4 @@ if __name__ == '__main__':
     app.config['UPLOAD_FOLDER'] = 'uploads'
     if not os.path.exists(app.config['UPLOAD_FOLDER']):
         os.makedirs(app.config['UPLOAD_FOLDER'])
-    app.run(debug=True)
+    # app.run(debug=True)
