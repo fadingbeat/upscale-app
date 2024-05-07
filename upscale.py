@@ -1,11 +1,9 @@
 from flask import Flask, render_template, request, jsonify, url_for, send_from_directory
 import cv2
-from cv2 import dnn_superres, redirectError
+from cv2 import dnn_superres
 import os
-from flask.helpers import redirect
 
 import numpy as np
-# from werkzeug.utils import send_from_directory
 
 app = Flask(__name__)
 
@@ -56,7 +54,6 @@ def index():
                     output_file_path = os.path.join(app.config['UPLOAD_FOLDER'], 'upscaled_image.png')
                     cv2.imwrite(output_file_path, upscaled_image)
                     return jsonify({'success': True, 'output_file': url_for('uploaded_file', filename='upscaled_image.png')})
-                    # return redirect(url_for('uploaded_file', filename='upscaled_image.png'))
                 else:
                     return jsonify({'error': 'Failed to upscale the image'})
                 
