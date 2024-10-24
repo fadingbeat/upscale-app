@@ -11,7 +11,7 @@ app = Flask(__name__)
 sr = dnn_superres.DnnSuperResImpl_create()
 
 # read the model
-path = 'EDSR_x4.pb'
+path = 'models/EDSR_x4.pb'
 sr.readModel(path)
 
 # set the model and scale
@@ -22,7 +22,7 @@ def upscale_image(image):
     try:
         # upsample the image
         upscaled = sr.upsample(image)
-        return upscaled
+        return upscaled, None
     except Exception as e:
         return None, "An error occurred while upscaling the image: " + str(e)
 
@@ -47,7 +47,7 @@ def index():
                 image = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
 
                 # upscale the image
-                upscaled_image = upscale_image(image)
+                upscaled_image, error_message = upscale_image(image)
 
                 if upscaled_image is not None:
                     # save the upscaled image
@@ -55,7 +55,7 @@ def index():
                     cv2.imwrite(output_file_path, upscaled_image)
                     return jsonify({'success': True, 'output_file': url_for('uploaded_file', filename='upscaled_image.png')})
                 else:
-                    return jsonify({'error': 'Failed to upscale the image'})
+                    return jsonify({'error': error_message})
                 
 
             except Exception as e:
@@ -72,4 +72,4 @@ if __name__ == '__main__':
     app.config['UPLOAD_FOLDER'] = 'uploads'
     if not os.path.exists(app.config['UPLOAD_FOLDER']):
         os.makedirs(app.config['UPLOAD_FOLDER'])
-    # app.run(debug=True)
+    app.run(debug=True)
