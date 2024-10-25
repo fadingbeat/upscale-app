@@ -49,7 +49,7 @@ LapSRN is a progressive super-resolution model that reconstructs high-resolution
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/upscale-app.git
+   git clone https://github.com/fadingbeat/upscale-app.git
    ```
 2. Navigate to the project directory:
    ```bash
